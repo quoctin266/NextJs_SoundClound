@@ -1,0 +1,44 @@
+{
+  "name": "material-ui-nextjs-ts",
+  "version": "5.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "post-update": "echo \"codesandbox preview only, need an update\" && pnpm update --latest"
+  },
+  "dependencies": {
+    "@emotion/cache": "latest",
+    "@emotion/react": "latest",
+    "@emotion/styled": "latest",
+    "@mui/icons-material": "latest",
+    "@mui/lab": "^5.0.0-alpha.175",
+    "@mui/material": "latest",
+    "@mui/material-nextjs": "latest",
+    "@wavesurfer/react": "^1.0.7",
+    "axios": "^1.7.9",
+    "next": "latest",
+    "next-auth": "^4.24.11",
+    "query-string": "^9.0.0",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-dropzone": "^14.3.5",
+    "react-h5-audio-player": "^3.9.1",
+    "react-slick": "^0.30.2",
+    "slick-carousel": "^1.8.1",
+    "wavesurfer.js": "^7.7.11"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@types/react-slick": "^0.23.13",
+    "@types/slick-carousel": "^1.6.40",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "sass": "^1.83.4",
+    "typescript": "latest"
+  }
+}
