@@ -24,85 +24,94 @@ function Footer() {
 
   if (!hasMounted) return <></>;
 
-  return (
-    <AppBar
-      position="fixed"
-      color="primary"
-      sx={{
-        top: "auto",
-        bottom: 0,
-        background: "#f2f2f2",
-        ".author": {
-          color: "gray",
-        },
-        ".track-title": {
-          color: "black",
-        },
-      }}
-    >
-      <Toolbar>
-        <Container
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            gap: 6,
-            ".rhap_main": { gap: "30px" },
-          }}
-        >
-          <AudioPlayer
-            layout="horizontal-reverse"
-            style={{
-              boxShadow: "none",
-              flex: 6,
-              padding: 20,
-              background: "#f2f2f2",
-            }}
-            src={
-              track?.trackUrl
-                ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/tracks/${track.trackUrl}`
-                : ""
-            }
-            onPlay={(e) => {
-              if (track)
-                setTrack({
-                  ...track,
-                  isPlaying: true,
-                });
-            }}
-            autoPlayAfterSrcChange={false}
-            onPause={() => {
-              if (track)
-                setTrack({
-                  ...track,
-                  isPlaying: false,
-                });
-            }}
-            ref={player}
-            onSeeked={(e) => {
-              if (track)
-                setTrack({
-                  ...track,
-                  time: player.current?.audio.current?.currentTime,
-                });
-            }}
-            // other props here
-          />
-          <Box
+  if (track)
+    return (
+      <AppBar
+        position="fixed"
+        color="primary"
+        sx={{
+          top: "auto",
+          bottom: 0,
+          background: "#f2f2f2",
+          ".author": {
+            color: "gray",
+            textOverflow: "ellipsis",
+            width: 150,
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+          },
+          ".track-title": {
+            color: "black",
+            textOverflow: "ellipsis",
+            width: 150,
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+          },
+        }}
+      >
+        <Toolbar>
+          <Container
             sx={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "flex-start",
               display: "flex",
-              flexDirection: "column",
+              flexDirection: "row",
+              gap: 6,
+              ".rhap_main": { gap: "30px" },
             }}
           >
-            <div className="author">{track?.title ?? "N/A"}</div>
-            <div className="track-title">{track?.description ?? "N/A"}</div>
-          </Box>
-        </Container>
-      </Toolbar>
-    </AppBar>
-  );
+            <AudioPlayer
+              layout="horizontal-reverse"
+              style={{
+                boxShadow: "none",
+                flex: 6,
+                padding: 20,
+                background: "#f2f2f2",
+              }}
+              src={
+                track?.trackUrl
+                  ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/tracks/${track.trackUrl}`
+                  : ""
+              }
+              onPlay={(e) => {
+                if (track)
+                  setTrack({
+                    ...track,
+                    isPlaying: true,
+                  });
+              }}
+              autoPlayAfterSrcChange={false}
+              onPause={() => {
+                if (track)
+                  setTrack({
+                    ...track,
+                    isPlaying: false,
+                  });
+              }}
+              ref={player}
+              onSeeked={(e) => {
+                if (track)
+                  setTrack({
+                    ...track,
+                    time: player.current?.audio.current?.currentTime,
+                  });
+              }}
+              // other props here
+            />
+            <Box
+              sx={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "flex-start",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div className="author">{track?.title ?? "N/A"}</div>
+              <div className="track-title">{track?.description ?? "N/A"}</div>
+            </Box>
+          </Container>
+        </Toolbar>
+      </AppBar>
+    );
 }
 
 export default Footer;

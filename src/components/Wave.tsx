@@ -4,7 +4,7 @@ import styles from "./Wave.module.scss";
 import { drawProgressColor, drawWaveColor } from "@/utils/gradients";
 import { Box, Grid, IconButton, Tooltip } from "@mui/material";
 import { useWavesurfer } from "@wavesurfer/react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, {
   useCallback,
   useEffect,
@@ -14,47 +14,35 @@ import React, {
 } from "react";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
-import { sendRequest } from "@/utils/fetchWrapper";
+import { fetchDefaultImages, sendRequest } from "@/utils/fetchWrapper";
 import { useTrackContext } from "@/lib/track.wrapper";
 
-const arrComments = [
-  {
-    id: 1,
-    avatar: "http://localhost:8000/images/chill1.png",
-    moment: 10,
-    user: "username 1",
-    content: "just a comment1",
-  },
-  {
-    id: 2,
-    avatar: "http://localhost:8000/images/chill1.png",
-    moment: 30,
-    user: "username 2",
-    content: "just a comment3",
-  },
-  {
-    id: 3,
-    avatar: "http://localhost:8000/images/chill1.png",
-    moment: 50,
-    user: "username 3",
-    content: "just a comment3",
-  },
-];
+interface IProps {
+  comments: IComment[];
+}
 
-const Wave = () => {
+const Wave = (props: IProps) => {
+  const { comments } = props;
+
   const [duration, setDuration] = useState("0:00");
   const [current, setCurrent] = useState("0:00");
   const [hoverWidth, setHoverWidth] = useState(0);
   const [track, setTrack] = useState<ITrackTop | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const firstViewRef = useRef(true);
 
   const searchParams = useSearchParams();
   const audioName = searchParams.get("audio");
   const id = searchParams.get("id");
 
-  const { setTrack: setCurrentTrack, track: currentTrack } =
-    useTrackContext() as ITrackContext;
+  const router = useRouter();
+
+  const {
+    setTrack: setCurrentTrack,
+    track: currentTrack,
+    setWavesurfer,
+  } = useTrackContext() as ITrackContext;
 
   const waveColor = useMemo(() => {
     return drawWaveColor();
@@ -137,6 +125,21 @@ const Wave = () => {
     wavesurfer && wavesurfer.playPause();
   }, [wavesurfer]);
 
+  const handleIncreaseView = async () => {
+    if (track && firstViewRef.current) {
+      await sendRequest<IBackendRes<string>>({
+        method: "POST",
+        url: `api/v1/tracks/increase-view`,
+        body: {
+          trackId: track._id,
+        },
+      });
+
+      firstViewRef.current = false;
+      router.refresh();
+    }
+  };
+
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const secondsRemainder = Math.round(seconds) % 60;
@@ -145,9 +148,11 @@ const Wave = () => {
   };
 
   const calLeft = (moment: number) => {
-    const duration = 208;
-    const percentage = (moment / duration) * 100;
-    return `${percentage}%`;
+    if (wavesurfer) {
+      const duration = wavesurfer.getDuration();
+      const percentage = (moment / duration) * 100;
+      return `${percentage}%`;
+    }
   };
 
   useEffect(() => {
@@ -160,9 +165,9 @@ const Wave = () => {
         setDuration(formatTime(duration))
       );
 
-      const unsubUpdate = wavesurfer.on("timeupdate", (currentTime) =>
-        setCurrent(formatTime(currentTime))
-      );
+      const unsubUpdate = wavesurfer.on("timeupdate", (currentTime) => {
+        setCurrent(formatTime(currentTime));
+      });
 
       const unSubSeek = wavesurfer.on("seeking", (currentTime) => {
         if (currentTrack)
@@ -194,13 +199,19 @@ const Wave = () => {
 
   useEffect(() => {
     if (currentTrack && wavesurfer) {
-      wavesurfer.setMuted(true);
       if (currentTrack.time) wavesurfer.setTime(currentTrack.time);
 
       if (currentTrack.isPlaying) wavesurfer.play();
       else wavesurfer.pause();
     }
   }, [currentTrack, wavesurfer]);
+
+  useEffect(() => {
+    if (wavesurfer) {
+      wavesurfer.setMuted(true);
+      setWavesurfer(wavesurfer);
+    }
+  }, [wavesurfer]);
 
   // useEffect(() => {
   //   if (waveRef.current) {
@@ -239,6 +250,9 @@ const Wave = () => {
                 }}
                 onClick={() => {
                   onPlayPause();
+
+                  handleIncreaseView();
+
                   if (currentTrack)
                     setCurrentTrack({
                       ...currentTrack,
@@ -292,13 +306,13 @@ const Wave = () => {
             <div className={styles.duration}>{duration}</div>
             <div className={styles.hover} style={{ width: hoverWidth }}></div>
             <div>
-              {arrComments.map((item) => {
+              {comments.map((item) => {
                 return (
-                  <Tooltip arrow title={item.content} key={item.id}>
+                  <Tooltip arrow title={item.content} key={item._id}>
                     <img
                       className={styles.userImage}
                       style={{ left: calLeft(item.moment) }}
-                      src={item.avatar}
+                      src={fetchDefaultImages(item.user.type)}
                     />
                   </Tooltip>
                 );

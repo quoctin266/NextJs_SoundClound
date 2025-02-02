@@ -19,6 +19,7 @@
     "@mui/material-nextjs": "latest",
     "@wavesurfer/react": "^1.0.7",
     "axios": "^1.7.9",
+    "dayjs": "^1.11.13",
     "next": "latest",
     "next-auth": "^4.24.11",
     "query-string": "^9.0.0",

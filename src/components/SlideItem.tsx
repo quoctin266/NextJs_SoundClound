@@ -30,9 +30,7 @@ function SlideItem(props: IProps) {
         cursor: "pointer",
       }}
       onClick={() =>
-        router.push(
-          `/track/${item.title}?audio=${item?.trackUrl}&id=${item._id}`
-        )
+        router.push(`/track/${item._id}?audio=${item?.trackUrl}&id=${item._id}`)
       }
     >
       <h3>

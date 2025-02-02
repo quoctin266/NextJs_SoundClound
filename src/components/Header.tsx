@@ -16,6 +16,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { fetchDefaultImages } from "@/utils/fetchWrapper";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -214,7 +215,7 @@ function Header() {
                       onClick={handleOpenUserMenu}
                       sx={{ p: 0, marginLeft: 2 }}
                     >
-                      <Avatar>N</Avatar>
+                      <Avatar src={fetchDefaultImages(session.user.type)} />
                     </IconButton>
                   </Tooltip>
                   {/* desktop menu     */}

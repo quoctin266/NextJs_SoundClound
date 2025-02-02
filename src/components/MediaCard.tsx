@@ -39,7 +39,7 @@ export default function MediaCard(props: IProps) {
       }}
       onClick={() => {
         router.push(
-          `/track/${track.title}?audio=${track.trackUrl}&id=${track._id}`
+          `/track/${track._id}?audio=${track.trackUrl}&id=${track._id}`
         );
       }}
     >

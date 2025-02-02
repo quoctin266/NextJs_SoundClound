@@ -1,3 +1,5 @@
+import WaveSurfer from "wavesurfer.js";
+
 export {};
 // https://bobbyhadz.com/blog/typescript-make-types-global#declare-global-types-in-typescript
 
@@ -65,13 +67,68 @@ declare global {
     updatedAt: string;
   }
 
+  interface ILikeTrack {
+    _id: string;
+
+    title: string;
+
+    description: string;
+
+    category: string;
+
+    imgUrl: string;
+
+    trackUrl: string;
+
+    countLike: number;
+
+    countPlay: number;
+  }
+
   interface ICurrentTrack extends ITrackTop {
     isPlaying: boolean;
     time?: number;
+    commentTime?: number;
   }
 
   interface ITrackContext {
     track: ICurrentTrack | null;
     setTrack: (v: ICurrentTrack) => void;
+    wavesurfer: WaveSurfer | null;
+    setWavesurfer: (v: WaveSurfer) => void;
+  }
+
+  export interface IComment {
+    _id: string;
+
+    content: string;
+
+    moment: number;
+
+    user: {
+      _id: string;
+
+      email: string;
+
+      name: string;
+
+      role: string;
+
+      type: string;
+    };
+
+    track: {
+      _id: string;
+
+      title: string;
+
+      description: string;
+
+      trackUrl: string;
+    };
+
+    createdAt: string;
+
+    updatedAt: string;
   }
 }
