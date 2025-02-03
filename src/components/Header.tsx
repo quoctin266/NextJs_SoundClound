@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -11,12 +10,16 @@ import InputBase from "@mui/material/InputBase";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import { Avatar, Button, Container, Tooltip } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Tooltip from "@mui/material/Tooltip";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { fetchDefaultImages } from "@/utils/fetchWrapper";
+import { useMemo, useState } from "react";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -61,11 +64,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const settings = [{ title: "Profile", route: "/profile" }, { title: "Logout" }];
 
 function Header() {
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    React.useState<null | HTMLElement>(null);
+    useState<null | HTMLElement>(null);
 
   const router = useRouter();
 
@@ -73,7 +74,7 @@ function Header() {
 
   const { data: session } = useSession();
 
-  const settings = React.useMemo(
+  const settings = useMemo(
     () => [
       { title: "Profile", route: `/profile/${session?.user._id}` },
       { title: "Logout" },

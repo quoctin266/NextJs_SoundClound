@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDropzone, FileWithPath } from "react-dropzone";
 import styles from "./UploadStep1.module.scss";
 import UploadButton from "./UploadButton";

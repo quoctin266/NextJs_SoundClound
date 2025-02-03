@@ -1,23 +1,23 @@
 "use client";
 
-import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import { Container } from "@mui/material";
+import Container from "@mui/material/Container";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import { useHasMounted } from "@/utils/customHook";
 import { useTrackContext } from "@/lib/track.wrapper";
+import { useEffect, useRef } from "react";
 
 function Footer() {
   const hasMounted = useHasMounted();
 
   const { track, setTrack } = useTrackContext() as ITrackContext;
 
-  const player = React.useRef<AudioPlayer>(null);
+  const player = useRef<AudioPlayer>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (track?.isPlaying) player.current?.audio.current?.play();
     if (!track?.isPlaying) player.current?.audio.current?.pause();
   }, [track]);

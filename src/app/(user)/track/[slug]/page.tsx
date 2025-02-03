@@ -1,14 +1,46 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import CommentSection from "@/components/CommentSection";
 import LikeSection from "@/components/LikeSection";
 import Wave from "@/components/Wave";
 import { sendRequest } from "@/utils/fetchWrapper";
-import { Container } from "@mui/material";
+import Container from "@mui/material/Container";
 import { getServerSession } from "next-auth";
-import React from "react";
+import { Metadata } from "next";
+import { authOptions } from "@/utils/authOptions";
+
+type Props = {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // read route params
+  const slug = (await params).slug;
+  const id = slug.split("-")[slug.split("-").length - 1].split(".")[0];
+
+  const res = await sendRequest<IBackendRes<ITrackTop>>({
+    method: "GET",
+    url: `api/v1/tracks/${id}`,
+  });
+
+  return {
+    title: res.data?.title,
+    description: res.data?.description,
+    openGraph: {
+      title: "Hỏi Dân IT",
+      description: "Beyond Your Coding Skills",
+      type: "website",
+      images: [
+        `https://raw.githubusercontent.com/hoidanit/images-hosting/master/eric.png`,
+      ],
+    },
+  };
+}
 
 async function DetailTrackPage(props: { params: { slug: string } }) {
   const { params } = props;
+
+  const slug = params.slug;
+  const id = slug.split("-")[slug.split("-").length - 1].split(".")[0];
 
   const session = await getServerSession(authOptions);
 
@@ -18,7 +50,7 @@ async function DetailTrackPage(props: { params: { slug: string } }) {
     queryParams: {
       current: 1,
       pageSize: 10,
-      trackId: params.slug,
+      trackId: id,
       sort: "-createdAt",
     },
   });
@@ -39,13 +71,14 @@ async function DetailTrackPage(props: { params: { slug: string } }) {
 
   const trackRes = await sendRequest<IBackendRes<ITrackTop>>({
     method: "GET",
-    url: `api/v1/tracks/${params.slug}`,
+    url: `api/v1/tracks/${id}`,
+    nextOption: { cache: "no-store" },
   });
 
   return (
     <Container sx={{ py: "3rem" }}>
       <div>
-        <Wave comments={response.data?.result ?? []} />
+        <Wave comments={response.data?.result ?? []} id={id} />
       </div>
       <div>
         <LikeSection

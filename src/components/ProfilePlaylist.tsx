@@ -1,7 +1,7 @@
 "use client";
 
-import { Container, Grid } from "@mui/material";
-import React from "react";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
 import MediaCard from "./MediaCard";
 import { useTrackContext } from "@/lib/track.wrapper";
 

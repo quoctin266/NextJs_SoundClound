@@ -1,20 +1,6 @@
 "use client";
 
-import {
-  Avatar,
-  Button,
-  Card,
-  Divider,
-  FormControl,
-  FormHelperText,
-  Grid,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  TextField,
-} from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LockIcon from "@mui/icons-material/Lock";
@@ -22,7 +8,19 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 import { signIn } from "next-auth/react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
+import IconButton from "@mui/material/IconButton";
+import Avatar from "@mui/material/Avatar";
+import TextField from "@mui/material/TextField";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
 
 const initError = {
   username: "",
@@ -30,7 +28,7 @@ const initError = {
 };
 
 function LoginForm() {
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState(initError);

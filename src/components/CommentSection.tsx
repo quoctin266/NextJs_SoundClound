@@ -1,14 +1,18 @@
 "use client";
 
 import { fetchDefaultImages, sendRequest } from "@/utils/fetchWrapper";
-import { Avatar, Box, Grid, TextField } from "@mui/material";
 import dayjs from "dayjs";
-import React, { useState } from "react";
+import { useState } from "react";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/utils/toast";
 import { useRouter } from "next/navigation";
 import { useTrackContext } from "@/lib/track.wrapper";
+import Grid from "@mui/material/Grid";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Image from "next/image";
 
 dayjs.extend(relativeTime);
 
@@ -89,7 +93,14 @@ function CommentSection(props: IProps) {
 
       <Grid item xs={1.5} textAlign={"center"}>
         {track && (
-          <img width={"100%"} src={fetchDefaultImages(track.uploader.type)} />
+          <Box width={"100%"} position={"relative"} height={"50%"}>
+            <Image
+              src={fetchDefaultImages(track.uploader.type)}
+              alt="uploader avatar"
+              fill
+              style={{ objectFit: "contain" }}
+            />
+          </Box>
         )}
         <div>{track?.uploader.email}</div>
       </Grid>

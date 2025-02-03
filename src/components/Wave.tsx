@@ -2,27 +2,27 @@
 
 import styles from "./Wave.module.scss";
 import { drawProgressColor, drawWaveColor } from "@/utils/gradients";
-import { Box, Grid, IconButton, Tooltip } from "@mui/material";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 import { useWavesurfer } from "@wavesurfer/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
 import { fetchDefaultImages, sendRequest } from "@/utils/fetchWrapper";
 import { useTrackContext } from "@/lib/track.wrapper";
+import Image from "next/image";
 
 interface IProps {
   comments: IComment[];
+
+  id: string;
 }
 
 const Wave = (props: IProps) => {
-  const { comments } = props;
+  const { comments, id } = props;
 
   const [duration, setDuration] = useState("0:00");
   const [current, setCurrent] = useState("0:00");
@@ -34,7 +34,6 @@ const Wave = (props: IProps) => {
 
   const searchParams = useSearchParams();
   const audioName = searchParams.get("audio");
-  const id = searchParams.get("id");
 
   const router = useRouter();
 
@@ -309,10 +308,15 @@ const Wave = (props: IProps) => {
               {comments.map((item) => {
                 return (
                   <Tooltip arrow title={item.content} key={item._id}>
-                    <img
+                    <Image
                       className={styles.userImage}
-                      style={{ left: calLeft(item.moment) }}
                       src={fetchDefaultImages(item.user.type)}
+                      alt="comment avatar"
+                      width={20}
+                      height={20}
+                      style={{
+                        left: calLeft(item.moment),
+                      }}
                     />
                   </Tooltip>
                 );
@@ -322,10 +326,14 @@ const Wave = (props: IProps) => {
         </Grid>
 
         <Grid container item xs={2.5} alignItems={"center"}>
-          <img
-            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track?.imgUrl}`}
-            style={{ width: "100%", height: "70%", objectFit: "cover" }}
-          />
+          <Box position={"relative"} height={"70%"} width={"100%"}>
+            <Image
+              src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track?.imgUrl}`}
+              alt="track cover image"
+              fill
+              style={{ objectFit: "cover" }}
+            />
+          </Box>
         </Grid>
       </Grid>
     </div>

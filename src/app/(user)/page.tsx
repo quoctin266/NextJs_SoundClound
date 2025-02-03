@@ -1,13 +1,9 @@
 import MainSlider from "@/components/MainSlider";
-import { Container } from "@mui/material";
-import * as React from "react";
+// import Container from "@mui/material/Container";
 import { sendRequest } from "@/utils/fetchWrapper";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { Container } from "@mui/material";
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
-
   const chills = await sendRequest<IBackendRes<ITrackTop[]>>({
     method: "POST",
     url: "api/v1/tracks/top",

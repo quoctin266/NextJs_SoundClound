@@ -1,6 +1,6 @@
 import UploadTabs from "@/components/UploadTabs";
 import { Container } from "@mui/material";
-import React from "react";
+// import Container from "@mui/material/Container";
 
 function UploadPage() {
   return (

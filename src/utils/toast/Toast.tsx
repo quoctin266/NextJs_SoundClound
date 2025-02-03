@@ -1,8 +1,8 @@
 "use client";
 
-import { Alert, Snackbar, SnackbarProps } from "@mui/material";
-import * as React from "react";
-import { FC } from "react";
+import Alert from "@mui/material/Alert";
+import Snackbar, { SnackbarProps } from "@mui/material/Snackbar";
+import { FC, useState } from "react";
 import { ToastMessage } from "./useToast";
 
 export type ToastStyle = Omit<
@@ -22,7 +22,7 @@ export const Toast: FC<ToastProps> = ({
   autoHideDuration,
   ...props
 }) => {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
 
   const handleClose = (
     _event: React.SyntheticEvent | Event,

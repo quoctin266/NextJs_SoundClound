@@ -1,7 +1,6 @@
 "use client";
 
-import * as React from "react";
-import { useTheme } from "@mui/material/styles";
+import useTheme from "@mui/material/styles/useTheme";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -14,6 +13,7 @@ import SkipNextIcon from "@mui/icons-material/SkipNext";
 import { useTrackContext } from "@/lib/track.wrapper";
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
 import { useRouter } from "next/navigation";
+import { convertSlugUrl } from "@/utils/fetchWrapper";
 
 interface IProps {
   track: ITrackTop;
@@ -39,7 +39,9 @@ export default function MediaCard(props: IProps) {
       }}
       onClick={() => {
         router.push(
-          `/track/${track._id}?audio=${track.trackUrl}&id=${track._id}`
+          `/track/${convertSlugUrl(track.title)}-${track._id}.html?audio=${
+            track.trackUrl
+          }`
         );
       }}
     >

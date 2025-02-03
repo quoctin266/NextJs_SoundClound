@@ -1,8 +1,8 @@
 "use client";
-import { Chip, Grid } from "@mui/material";
+import Chip from "@mui/material/Chip";
+import Grid from "@mui/material/Grid";
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
-import React from "react";
 import { useRouter } from "next/navigation";
 import { sendRequest } from "@/utils/fetchWrapper";
 import { useSession } from "next-auth/react";

@@ -1,7 +1,8 @@
 "use client";
 
-import { Box } from "@mui/material";
-import React from "react";
+import { convertSlugUrl } from "@/utils/fetchWrapper";
+import Box from "@mui/material/Box";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 interface IProps {
@@ -30,14 +31,21 @@ function SlideItem(props: IProps) {
         cursor: "pointer",
       }}
       onClick={() =>
-        router.push(`/track/${item._id}?audio=${item?.trackUrl}&id=${item._id}`)
+        router.push(
+          `/track/${convertSlugUrl(item.title)}-${item._id}.html?audio=${
+            item?.trackUrl
+          }`
+        )
       }
     >
-      <h3>
-        <img
+      <Box position={"relative"} height={200} width={"100%"} mb={1}>
+        <Image
           src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${item?.imgUrl}`}
+          alt="track cover image"
+          fill
+          style={{ objectFit: "cover" }}
         />
-      </h3>
+      </Box>
       <div className="title">{item?.title}</div>
       <div>{item?.description}</div>
     </Box>

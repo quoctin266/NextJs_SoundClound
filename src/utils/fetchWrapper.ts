@@ -1,4 +1,5 @@
 import queryString from "query-string";
+import slugify from "slugify";
 
 export const sendRequest = async <T>(props: IRequest) => {
   let {
@@ -89,4 +90,13 @@ export const fetchDefaultImages = (type: string) => {
   if (type === "GOOGLE") return "/image/default-google.png";
 
   return "/image/default-user.png";
+};
+
+export const convertSlugUrl = (value: string) => {
+  if (!value) return "";
+
+  return slugify(value, {
+    locale: "vi",
+    lower: true,
+  });
 };

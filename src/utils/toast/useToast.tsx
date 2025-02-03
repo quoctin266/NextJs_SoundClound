@@ -1,8 +1,8 @@
 "use client";
 
-import { AlertColor } from "@mui/material";
 import { createContext, FC, ReactNode, useContext, useState } from "react";
 import { Toast, ToastStyle } from "./Toast";
+import { AlertColor } from "@mui/material";
 
 export interface ToastMessage {
   message: string;
