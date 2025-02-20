@@ -8,11 +8,12 @@ import { useSession } from "next-auth/react";
 import { useToast } from "@/utils/toast";
 import { useRouter } from "next/navigation";
 import { useTrackContext } from "@/lib/track.wrapper";
-import Grid from "@mui/material/Grid";
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+// import Grid from "@mui/material/Grid";
+// import Avatar from "@mui/material/Avatar";
+// import Box from "@mui/material/Box";
+// import TextField from "@mui/material/TextField";
 import Image from "next/image";
+import { Avatar, Box, Grid, TextField } from "@mui/material";
 
 dayjs.extend(relativeTime);
 
@@ -93,14 +94,12 @@ function CommentSection(props: IProps) {
 
       <Grid item xs={1.5} textAlign={"center"}>
         {track && (
-          <Box width={"100%"} position={"relative"} height={"50%"}>
-            <Image
-              src={fetchDefaultImages(track.uploader.type)}
-              alt="uploader avatar"
-              fill
-              style={{ objectFit: "contain" }}
-            />
-          </Box>
+          <Image
+            src={fetchDefaultImages(track.uploader.type)}
+            alt="uploader avatar"
+            width={150}
+            height={150}
+          />
         )}
         <div>{track?.uploader.email}</div>
       </Grid>

@@ -2,10 +2,11 @@ import CommentSection from "@/components/CommentSection";
 import LikeSection from "@/components/LikeSection";
 import Wave from "@/components/Wave";
 import { sendRequest } from "@/utils/fetchWrapper";
-import Container from "@mui/material/Container";
+import { Container } from "@mui/material";
 import { getServerSession } from "next-auth";
 import { Metadata } from "next";
 import { authOptions } from "@/utils/authOptions";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -34,6 +35,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ],
     },
   };
+}
+
+export async function generateStaticParams() {
+  return [{ slug: "sau-con-mua-661d576bda639b20185b82cc.html" }];
 }
 
 async function DetailTrackPage(props: { params: { slug: string } }) {
@@ -72,8 +77,9 @@ async function DetailTrackPage(props: { params: { slug: string } }) {
   const trackRes = await sendRequest<IBackendRes<ITrackTop>>({
     method: "GET",
     url: `api/v1/tracks/${id}`,
-    nextOption: { cache: "no-store" },
   });
+
+  if (!trackRes.data) notFound();
 
   return (
     <Container sx={{ py: "3rem" }}>

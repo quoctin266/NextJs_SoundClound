@@ -5,6 +5,7 @@ import theme from "@/theme";
 import NextAuthWrapper from "@/lib/next.auth.wrapper";
 import { ToastProvider } from "@/utils/toast";
 import { TrackContextProvider } from "@/lib/track.wrapper";
+import NProgressWrapper from "@/lib/nprogress.wrapper";
 
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
@@ -14,11 +15,13 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-            <NextAuthWrapper>
-              <ToastProvider>
-                <TrackContextProvider>{props.children}</TrackContextProvider>
-              </ToastProvider>
-            </NextAuthWrapper>
+            <NProgressWrapper>
+              <NextAuthWrapper>
+                <ToastProvider>
+                  <TrackContextProvider>{props.children}</TrackContextProvider>
+                </ToastProvider>
+              </NextAuthWrapper>
+            </NProgressWrapper>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

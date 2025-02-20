@@ -21,6 +21,7 @@
     "dayjs": "^1.11.13",
     "next": "latest",
     "next-auth": "^4.24.11",
+    "next-nprogress-bar": "^2.4.4",
     "query-string": "^9.0.0",
     "react": "latest",
     "react-dom": "latest",

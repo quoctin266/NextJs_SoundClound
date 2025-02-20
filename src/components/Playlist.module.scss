@@ -1,0 +1,13 @@
+.container {
+    background-color: rgb(237, 247, 255);
+    padding         : 2rem;
+
+    .title {
+        font-weight: 600;
+        font-size  : 1.2rem;
+    }
+
+    .trackTitle {
+        cursor: pointer;
+    }
+}

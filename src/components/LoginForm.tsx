@@ -8,7 +8,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 import { signIn } from "next-auth/react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import IconButton from "@mui/material/IconButton";
@@ -36,6 +36,9 @@ function LoginForm() {
   const [loginError, setLoginError] = useState("");
 
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -79,7 +82,7 @@ function LoginForm() {
     if (res?.error) {
       setLoginError(res.error);
     } else {
-      router.push("/");
+      router.push(callbackUrl ? callbackUrl : "/");
     }
   };
 

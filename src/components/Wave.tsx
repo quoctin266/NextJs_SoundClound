@@ -2,10 +2,10 @@
 
 import styles from "./Wave.module.scss";
 import { drawProgressColor, drawWaveColor } from "@/utils/gradients";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
+// import Box from "@mui/material/Box";
+// import Grid from "@mui/material/Grid";
+// import IconButton from "@mui/material/IconButton";
+// import Tooltip from "@mui/material/Tooltip";
 import { useWavesurfer } from "@wavesurfer/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -14,6 +14,7 @@ import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
 import { fetchDefaultImages, sendRequest } from "@/utils/fetchWrapper";
 import { useTrackContext } from "@/lib/track.wrapper";
 import Image from "next/image";
+import { Box, Grid, IconButton, Tooltip } from "@mui/material";
 
 interface IProps {
   comments: IComment[];

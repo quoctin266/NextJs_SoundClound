@@ -38,20 +38,24 @@ function UploadStep1(props: IProps) {
         const response = await axios.post<
           unknown,
           { data: IBackendRes<{ fileName: string }> }
-        >("http://localhost:8000/api/v1/files/upload", formdata, {
-          headers: {
-            target_type: "tracks",
-            Authorization: `Bearer ${session?.access_token}`,
-            delay: 5000,
-          },
-          onUploadProgress(progressEvent) {
-            const percentCompleted = Math.floor(
-              (progressEvent.loaded * 100) / (progressEvent.total as number)
-            );
+        >(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}api/v1/files/upload`,
+          formdata,
+          {
+            headers: {
+              target_type: "tracks",
+              Authorization: `Bearer ${session?.access_token}`,
+              delay: 5000,
+            },
+            onUploadProgress(progressEvent) {
+              const percentCompleted = Math.floor(
+                (progressEvent.loaded * 100) / (progressEvent.total as number)
+              );
 
-            setProgress(percentCompleted);
-          },
-        });
+              setProgress(percentCompleted);
+            },
+          }
+        );
 
         if (response.data.data) setTrackUrl(response.data.data?.fileName);
       }
@@ -84,20 +88,24 @@ function UploadStep1(props: IProps) {
         const response = await axios.post<
           unknown,
           { data: IBackendRes<{ fileName: string }> }
-        >("http://localhost:8000/api/v1/files/upload", formdata, {
-          headers: {
-            target_type: "tracks",
-            Authorization: `Bearer ${session.access_token}`,
-            delay: 5000,
-          },
-          onUploadProgress(progressEvent) {
-            const percentCompleted = Math.floor(
-              (progressEvent.loaded * 100) / (progressEvent.total as number)
-            );
+        >(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}api/v1/files/upload`,
+          formdata,
+          {
+            headers: {
+              target_type: "tracks",
+              Authorization: `Bearer ${session.access_token}`,
+              delay: 5000,
+            },
+            onUploadProgress(progressEvent) {
+              const percentCompleted = Math.floor(
+                (progressEvent.loaded * 100) / (progressEvent.total as number)
+              );
 
-            setProgress(percentCompleted);
-          },
-        });
+              setProgress(percentCompleted);
+            },
+          }
+        );
 
         if (response.data.data) setTrackUrl(response.data.data?.fileName);
       }

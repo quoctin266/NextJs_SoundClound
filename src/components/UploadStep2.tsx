@@ -88,12 +88,16 @@ function UploadStep2(props: IProps) {
         const response = await axios.post<
           unknown,
           { data: IBackendRes<{ fileName: string }> }
-        >("http://localhost:8000/api/v1/files/upload", formdata, {
-          headers: {
-            target_type: "images",
-            Authorization: `Bearer ${session?.access_token}`,
-          },
-        });
+        >(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}api/v1/files/upload`,
+          formdata,
+          {
+            headers: {
+              target_type: "images",
+              Authorization: `Bearer ${session?.access_token}`,
+            },
+          }
+        );
 
         const imgUrl = response.data.data?.fileName;
         if (imgUrl)
